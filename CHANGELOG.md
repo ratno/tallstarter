@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Auto-verify super admin email
   - Improved success message with credentials display
 - Fixed `post-create-project-cmd` script order and removed duplicates
+- Added `email_verified_at` to User model fillable fields to fix mass assignment error during super admin creation
 
 ## [1.0.0] - 2025-11-27 (Initial)
 
