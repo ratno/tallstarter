@@ -1,0 +1,102 @@
+name: Sync Upstream Sources
+
+on:
+  schedule:
+    # Run every Monday at 00:00 UTC
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+    # Allow manual trigger
+
+jobs:
+  check-updates:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: dom, curl, libxml, mbstring, zip
+          coverage: none
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Check for TALL Starter updates
+        id: check_tall
+        run: |
+          echo "Checking mortenebak/tallstarter for updates..."
+          # Get latest commit from TALL starter
+          LATEST_COMMIT=$(curl -s "https://api.github.com/repos/mortenebak/tallstarter/commits/main" | jq -r '.sha')
+          echo "latest_commit=$LATEST_COMMIT" >> $GITHUB_OUTPUT
+          echo "Latest TALL starter commit: $LATEST_COMMIT"
+
+      - name: Check for Laravel Official updates
+        id: check_laravel
+        run: |
+          echo "Checking Laravel framework for updates..."
+          # Get latest Laravel version
+          LATEST_VERSION=$(curl -s "https://packagist.org/packages/laravel/framework.json" | jq -r '.package.versions | to_entries | map(select(.key | test("^[0-9]"))) | sort_by(.key) | reverse | .[0].key')
+          echo "latest_version=$LATEST_VERSION" >> $GITHUB_OUTPUT
+          echo "Latest Laravel version: $LATEST_VERSION"
+
+      - name: Read current versions
+        id: current_versions
+        run: |
+          # Read from config/upstream-sources.json
+          if [ -f config/upstream-sources.json ]; then
+            CURRENT_TALL=$(jq -r '.sources.tall_starter.current_version.commit_hash' config/upstream-sources.json)
+            CURRENT_LARAVEL=$(jq -r '.sources.laravel_official_livewire.current_version.laravel_version' config/upstream-sources.json)
+            echo "current_tall=$CURRENT_TALL" >> $GITHUB_OUTPUT
+            echo "current_laravel=$CURRENT_LARAVEL" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create update notification
+        if: steps.check_tall.outputs.latest_commit != steps.current_versions.outputs.current_tall || steps.check_laravel.outputs.latest_version != steps.current_versions.outputs.current_laravel
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue_body = `
+            ## 🔄 Upstream Updates Available
+
+            New updates detected from upstream sources:
+
+            ### TALL Starter (mortenebak/tallstarter)
+            - **Current**: \`${{ steps.current_versions.outputs.current_tall }}\`
+            - **Latest**: \`${{ steps.check_tall.outputs.latest_commit }}\`
+            - **Status**: ${{ steps.check_tall.outputs.latest_commit != steps.current_versions.outputs.current_tall && '⚠️ Update available' || '✅ Up to date' }}
+
+            ### Laravel Official
+            - **Current**: \`${{ steps.current_versions.outputs.current_laravel }}\`
+            - **Latest**: \`${{ steps.check_laravel.outputs.latest_version }}\`
+            - **Status**: ${{ steps.check_laravel.outputs.latest_version != steps.current_versions.outputs.current_laravel && '⚠️ Update available' || '✅ Up to date' }}
+
+            ---
+
+            **What to do next:**
+            1. Review the changes in the upstream repositories
+            2. Run the merge script manually to test the updates
+            3. Run tests to ensure compatibility
+            4. Update \`config/upstream-sources.json\` with new versions
+            5. Create a PR with the changes
+
+            **Resources:**
+            - [TALL Starter Changelog](https://github.com/mortenebak/tallstarter/commits/main)
+            - [Laravel Releases](https://github.com/laravel/framework/releases)
+
+            ---
+            *This issue was automatically created by the Sync Upstream workflow*
+            `;
+
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🔄 Upstream Updates Available - ' + new Date().toISOString().split('T')[0],
+              body: issue_body,
+              labels: ['upstream-update', 'automation']
+            });

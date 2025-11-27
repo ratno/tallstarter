@@ -1,0 +1,61 @@
+{
+    "sources": {
+        "tall_starter": {
+            "name": "mortenebak/tallstarter",
+            "repository": "https://github.com/mortenebak/tallstarter",
+            "type": "laravel-preset",
+            "install_command": "laravel new project --using=mortenebak/tallstarter",
+            "current_version": {
+                "commit_hash": "main",
+                "laravel_version": "12.20.0",
+                "last_checked": "2025-11-27",
+                "last_synced": "2025-11-27"
+            },
+            "features": [
+                "Roles & Permissions (Spatie)",
+                "Admin Dashboard",
+                "User Management (CRUD + Impersonation)",
+                "Localization (Multi-language)",
+                "Code Quality Tools",
+                "Custom Commands"
+            ]
+        },
+        "laravel_official_livewire": {
+            "name": "Laravel Official Livewire Starter",
+            "repository": "https://github.com/laravel/laravel",
+            "type": "laravel-starter-kit",
+            "install_command": "laravel new project (select Livewire + Pest)",
+            "current_version": {
+                "laravel_version": "12.40.2",
+                "fortify_version": "^1.30",
+                "last_checked": "2025-11-27",
+                "last_synced": "2025-11-27"
+            },
+            "features": [
+                "Laravel Fortify",
+                "Two-Factor Authentication (2FA)",
+                "Volt-based Components",
+                "Pest Testing"
+            ]
+        }
+    },
+    "merge_strategy": {
+        "base": "tall_starter",
+        "additions_from_official": [
+            "Fortify authentication backend",
+            "Two-Factor Authentication",
+            "2FA views and components"
+        ],
+        "conflict_resolution": "manual_prompt"
+    },
+    "last_update_check": "2025-11-27T10:00:00Z",
+    "merged_features": [
+        "Roles & Permissions",
+        "Admin Dashboard",
+        "User Management",
+        "Two-Factor Authentication",
+        "Localization",
+        "Fortify Backend",
+        "Code Quality Tools"
+    ]
+}
