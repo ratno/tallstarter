@@ -108,7 +108,7 @@ Visit: `http://localhost:8000`
 # Create repository di GitHub terlebih dahulu
 # Kemudian push:
 
-git remote add origin https://github.com/YOUR-USERNAME/laravel-tall-merged-starter.git
+git remote add origin https://github.com/ratno/tallstarter.git
 git branch -M main
 git push -u origin main
 ```
@@ -123,7 +123,7 @@ git push -u origin main
 Sekarang orang lain bisa menggunakan:
 ```bash
 # Use your template
-git clone https://github.com/YOUR-USERNAME/laravel-tall-merged-starter.git my-project
+git clone https://github.com/ratno/tallstarter.git my-project
 ```
 
 ## 🧪 Testing
@@ -219,7 +219,7 @@ Created by seeders:
 Edit `composer.json`:
 ```json
 {
-    "name": "your-github-username/laravel-tall-merged-starter",
+    "name": "ratno/tallstarter",
     // ...
 }
 ```

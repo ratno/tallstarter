@@ -57,11 +57,38 @@ This starter kit includes everything you need to build modern Laravel applicatio
 
 ## 🚀 Quick Start
 
-### Using Laravel New
+### Using Laravel New (Recommended)
 
 ```bash
-# Clone this repository as a template
-git clone https://github.com/YOUR-USERNAME/laravel-tall-merged-starter my-project
+# Create new project using this starter
+laravel new my-project --using=ratno/tallstarter
+
+# Navigate to project
+cd my-project
+
+# Create super admin
+php artisan app:create-super-admin
+
+# Build assets and start development
+npm run build
+composer dev
+```
+
+### Using Composer Create-Project
+
+```bash
+composer create-project ratno/tallstarter my-project
+cd my-project
+php artisan app:create-super-admin
+npm install && npm run build
+composer dev
+```
+
+### Using Git Clone
+
+```bash
+# Clone this repository
+git clone https://github.com/ratno/tallstarter.git my-project
 cd my-project
 
 # Install dependencies
@@ -85,16 +112,6 @@ php artisan app:create-super-admin
 npm run build
 
 # Start development server
-composer dev
-```
-
-### Using Composer Create-Project
-
-```bash
-composer create-project your-username/laravel-tall-merged-starter my-project
-cd my-project
-php artisan app:create-super-admin
-npm install && npm run build
 composer dev
 ```
 
@@ -226,8 +243,8 @@ This starter kit is built on top of:
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/YOUR-USERNAME/laravel-tall-merged-starter/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/YOUR-USERNAME/laravel-tall-merged-starter/discussions)
+- **Issues**: [GitHub Issues](https://github.com/ratno/tallstarter/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/ratno/tallstarter/discussions)
 
 ## 🗺️ Roadmap
 
