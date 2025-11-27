@@ -28,6 +28,14 @@ class CreateSuperAdminCommand extends Command
      */
     public function handle(): int
     {
+        // Check if running in non-interactive mode (during installation)
+        if (! $this->input->isInteractive()) {
+            $this->info('Super admin creation skipped (non-interactive mode).');
+            $this->info('Run "php artisan app:create-super-admin" to create a super admin user.');
+
+            return CommandAlias::SUCCESS;
+        }
+
         // ask if to proceed with creating a super admin
         if (! $this->confirm('Do you want to create a super admin user?', true)) {
             $this->info('Super admin creation skipped.');
