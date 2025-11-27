@@ -6,13 +6,6 @@
 *.md diff=markdown
 *.php diff=php
 
-/.github export-ignore
-/tests export-ignore
-/.editorconfig export-ignore
 /.gitattributes export-ignore
-/.gitignore export-ignore
-/phpstan.neon export-ignore
-/phpunit.xml export-ignore
-/rector.php export-ignore
-CHANGELOG.md export-ignore
-SETUP_GUIDE.md export-ignore
+/bin export-ignore
+/docs export-ignore
