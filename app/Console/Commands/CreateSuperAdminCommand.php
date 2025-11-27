@@ -53,6 +53,14 @@ class CreateSuperAdminCommand extends Command
         // ask for the user's password
         $password = $this->secret('What is the users password?');
 
+        // Validate inputs - if any is empty, skip creation
+        if (empty($name) || empty($email) || empty($password)) {
+            $this->info('Super admin creation skipped (missing required information).');
+            $this->info('Run "php artisan app:create-super-admin" manually to create a super admin user.');
+
+            return CommandAlias::SUCCESS;
+        }
+
         // ask if the user is a super admin
         $isSuperAdmin = $this->confirm('Is this user a super admin?');
 
