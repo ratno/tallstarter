@@ -9,6 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2025-11-27
 
+### Fixed
+- Removed `pestphp/pest-plugin-drift` dependency that caused version conflicts during `laravel new`
+- Improved `CreateSuperAdminCommand` user experience:
+  - Removed confusing yes/no prompt
+  - Added direct Name, Email, Password prompts
+  - Added email format validation
+  - Added password confirmation
+  - Added minimum password length validation (8 characters)
+  - Added duplicate email check
+  - Auto-verify super admin email
+  - Improved success message with credentials display
+- Fixed `post-create-project-cmd` script order and removed duplicates
+
+## [1.0.0] - 2025-11-27 (Initial)
+
 ### Added
 - Initial release of Laravel TALL Merged Starter
 - **Authentication & Security**
